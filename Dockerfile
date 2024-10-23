@@ -8,15 +8,11 @@ RUN yarn install \
     && yarn build-cdt-lib \
     && yarn build-viewer
 
-FROM node:20.18.0-bookworm-slim AS runtime
+FROM caddy:2.8.4-alpine AS runtime
 
 COPY --from=build /dist/gh-pages /dist/gh-pages
-
-RUN apt-get update \
-    && apt-get install -y python3
-
-WORKDIR /dist/gh-pages
+COPY Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 7333
 
-CMD ["python3", "-m", "http.server", "7333"]
+CMD ["caddy", "run" , "--config", "/etc/caddy/Caddyfile"]

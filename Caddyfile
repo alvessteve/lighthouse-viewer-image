@@ -1,0 +1,8 @@
+localhost:7333 {
+    root /dist/gh-pages/viewer
+    encode zstd gzip
+    file_server browse
+}
+
+
+
