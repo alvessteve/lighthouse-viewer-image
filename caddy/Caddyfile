@@ -1,0 +1,10 @@
+{
+    auto_https disable_redirects
+    http_port 7333
+}
+
+:7333 {
+    root * /dist/gh-pages/viewer
+    encode zstd gzip
+    file_server browse
+}
