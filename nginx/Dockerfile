@@ -8,9 +8,9 @@ RUN yarn install \
     && yarn build-cdt-lib \
     && yarn build-viewer
 
-FROM nginx:1.27.2-bookworm AS runtime
+FROM nginx:alpine AS runtime
 
-COPY --from=build /dist/gh-pages /usr/share/nginx/html
+COPY --from=build /dist/gh-pages /dist/gh-pages
 COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 7333
