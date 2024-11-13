@@ -3,11 +3,16 @@
 set -euxo pipefail
 
 eval "$(ssh-agent -s)"
-ssh-add --apple-use-keychain
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    ssh-add --apple-use-keychain
+else
+    ssh-add
+fi
 
 docker image build --ssh default -t lighthouse-test .
 docker run -p 7333:7333 --name lighthouse-test-container --detach lighthouse-test
 
+# sleep to let the container start
 sleep 1
 
 set +e
