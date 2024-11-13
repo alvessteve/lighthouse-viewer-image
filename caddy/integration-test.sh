@@ -6,7 +6,7 @@ eval "$(ssh-agent -s)"
 if [[ "$OSTYPE" == "darwin"* ]]; then
     ssh-add --apple-use-keychain
 else
-    ssh-add
+    ssh-add ~/.ssh/id_rsa
 fi
 
 docker image build --ssh default -t lighthouse-test .
