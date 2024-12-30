@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  lighthouse-viewer:
+    build:
+      context: ./caddy
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: production
+    image: lighthouse-viewer:latest
+    container_name: lighthouse-viewer
+    restart: unless-stopped
+    ports:
+      - "7333:7333"
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:7333"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - lighthouse-network
+
+networks:
+  lighthouse-network:
+    driver: bridge
