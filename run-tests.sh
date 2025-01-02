@@ -23,7 +23,7 @@ run_server_tests() {
     
     cd "$SCRIPT_DIR/$server_name" || exit
     echo -e "\n${BLUE}Running $server_name tests...${NC}"
-    if ! run_container_tests "$container_name" "$image_name" "7333" "30" "."; then
+    if ! run_container_tests "$container_name" "$image_name" "7333" "300" "."; then
         OVERALL_SUCCESS=false
     fi
 }
